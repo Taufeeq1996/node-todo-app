@@ -4,6 +4,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import "dotenv/config";
 import todoRoutes from './routes/task.routes.js'
+import cors from "cors"
 
 const app = express(); 
 const port = process.env.PORT || 4000;
@@ -11,6 +12,7 @@ const Mongo_uri = process.env.MONGO_URI
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(cors())
 
 app.use('/api/task',todoRoutes);
 
