@@ -9,7 +9,7 @@ export const addTodo = async(req, res) => {
     } 
 
     const response = await Task.create({title,completed});
-
+    console.log(response)
     // Task.save();
     return res.status(201).json(response);
 }

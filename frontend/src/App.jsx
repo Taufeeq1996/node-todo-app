@@ -11,11 +11,25 @@ const handleClick = () => {
     axios.post('http://localhost:3000/api/task',{title:todo})
     .then(res => {
       alert('data sent successfully')
+      setTodo("")
+      setTodoList([...todoList, res.data])
     })
     .catch(err => alert('Unfortunately, data could not be sent'))
-
   }
   
+const fetchTask = () => {
+  axios.get('http://localhost:3000/api/task')
+  .then((res) => {
+    setTodoList(res.data)
+    // console.log(res.data)
+  })
+  .catch(err => {
+    console.log(err);
+  })
+}
+useEffect(()=>{
+  fetchTask()
+},[])
   // const showTask = () => {
   //   axios.get('http://localhost:3000/api/task') 
   //   .then(res => {
@@ -30,15 +44,17 @@ const handleClick = () => {
   return (
     <>
       <div className="task-div">
-        <input type="text" name="todo" id="todo" onChange={(event) => setTodo(event.target.value)}/>
+        <input type="text" name="todo" id="todo" onChange={(event) => setTodo(event.target.value)} value={todo}/>
         <button type="button" onClick={handleClick}>Add Task</button>
+        <button type="submit" onClick={fetchTask}>Display Task</button>
       </div>
       {
-        todoList.map(task => {
-          <div className="tasks">
-            <h2>{task}</h2>
-          </div>
-        })
+        todoList.map((task, index) =>{
+          return <div className="tasks" key={index}>
+        <h2 id="task-heading">{task.title}</h2>
+      </div>
+        }
+        )
       }
     </>
   )
